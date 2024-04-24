@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Cross Cultural Website{% endblock %}</title>
+    <link rel="stylesheet" href={% static 'homepage.css' %}" >
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/litera/bootstrap.min.css"/>
+</head>
+<body class="hero">
+    <div class="image"></div>
+
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+
+
+</body>
+</html>

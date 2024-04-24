@@ -1,0 +1,25 @@
+{% extends 'exchange/base.html' %}
+
+{% block content %}
+{% if category_posts %}
+    <h1> {{ selected_category.name }} Category</h1>
+
+        <ul>
+            {% for article in category_posts %}
+                <div class="article">
+                    <h2><a href="{% url 'articles:detail' slug=article.slug %}">{{ article.title}}</a></h2>
+                    <p> {{ article.title }}</p>
+                    <p>{{ article.category.name }}</p>
+                    <p>{{ article.snippet}} </p>
+                    <p>{{ article.date}}</p>
+                    <p class="author"> added by {{ article.author.username}} </p>
+                </div>
+            {% endfor %}
+        </ul>
+
+{% else %}
+    <h2> Sorry this page does not exist...</h2>
+
+{% endif %}
+
+{% endblock %}

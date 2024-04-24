@@ -1,0 +1,59 @@
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+        <link rel="stylesheet" href="{% static 'LoginStyle.css' %}" >
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/litera/bootstrap.min.css"/>
+
+</head>
+<br>
+<div class="wrapper" >
+    <body>
+        <h3>Sign Up</h3>
+
+    <form action="/accounts/signup/" method="post">
+        {% csrf_token %}
+        <!--<label for="">Username</label> -->
+        <div class="input-box">
+        <input type="text" id="username" name="username" placeholder="Username" required>
+        <br>
+        </div>
+
+        <div class="input-box">
+            <!--<label for="">First Name</label> -->
+        <input type="text" id="fname" name="fname" placeholder="First Name" required>
+        <br>
+        </div>
+
+        <div class="input-box">
+        <!--<label for="">Last Name</label>-->
+        <input type="text" id="lname" name="lname" placeholder="Last Name" required>
+        <br>
+        </div>
+
+        <div class="input-box">
+        <!--<label for="">Email Address</label>-->
+        <input type="email" id="email" name="email" placeholder="Email Address" required>
+        <br>
+        </div>
+
+        <div class="input-box">
+        <!--<label for="">Password</label> -->
+        <input type="password" id="pass1" name="pass1" placeholder="Password" required>
+        </div>
+
+        <div class="input-box">
+        <!--<label for="">Password Confirmation</label> -->
+        <input type="password" id="pass2" name="pass2" placeholder="Confirm Password" required>
+        </div>
+
+        <button type="submit" class="btn">Sign Up</button>
+    </form>
+</body>
+    </div>
+</html>

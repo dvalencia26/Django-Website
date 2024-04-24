@@ -1,0 +1,14 @@
+{% extends 'exchange/base.html' %}
+
+{% block content %}
+<div class="article-detail">
+    <div class="article">
+        <img src="{{ article.thumb.url }}"/>
+        <h1>This is the Article Detail HTML File </h1>
+        <h2{{ article.title}}></h2>
+        <p>{{ article.body }}</p>
+        <p>{{ article.date }}</p>
+    </div>
+</div>
+
+{% endblock %}
