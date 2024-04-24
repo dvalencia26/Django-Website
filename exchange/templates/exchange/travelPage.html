@@ -8,11 +8,11 @@
     <div class="articles">
         {% for article in articles %}
             <div class="article">
+                <p class="author"> added by {{ article.author.username}} </p>
                 <h2><a href="{% url 'articles:detail' slug=article.slug %}">{{ article.title}}</a></h2>
-                <!--<p>{{ article.category.name }}</p> -->
                 <p>{{ article.snippet}} </p>
                 <p>{{ article.date}}</p>
-                <p class="author"> added by {{ article.author.username}} </p>
+                <img src="{{ article.thumb.url }}" width="300"/>
             </div>
         {% endfor %}
         </div>

@@ -2,6 +2,18 @@ from django.shortcuts import redirect, render
 from .models import Article
 from django.contrib.auth.decorators import login_required
 from . import forms
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
+
+
+def like(request, pk):
+    print('this is post id' + request.POST.get('post_id'))
+    post = get_object_or_404(Article, id=request.POST.get('post_id'))
+     # id is getting the post_id assigned in the article_detail html form, retrieving it, and looking in the Article table
+    post.likes.add(request.user) # Save the user's like in the database
+     # return redirect('articles:detail')
+    return HttpResponseRedirect(reverse('articles:detail', args=[str(pk)]))
 
 
 def index(response):
@@ -17,10 +29,12 @@ def article_list(request):
     return render(request,"exchange/travelPage.html", {'articles': articles})
 
 
-def article_details(request, slug): # Save the slug of what page the use wants to go to
+def article_details(request, slug):  # Save the slug of what page the use wants to go to
     # return HttpResponse(slug)
+    print(slug)
     article = Article.objects.get(slug=slug)
-    return render(request, "exchange/article_detail.html", {'article':article})
+    # article = get_object_or_404(Article, slug=slug)
+    return render(request, "exchange/article_detail.html", {'article': article})
 
 
 @login_required(login_url="/accounts/signin/")
@@ -30,13 +44,11 @@ def article_create(request):
     if request.method == 'POST':
         # Create a form instance with the POST data
         form = forms.CreatePost(request.POST, request.FILES)
-
         # If the form is valid, save the article to the database
         if form.is_valid():
             # save article to database
             instance = form.save(commit=False)
             instance.author = request.user
-
             instance.save()
             return redirect('articles:travelPage')
     else:

@@ -12,6 +12,21 @@ from django.contrib.auth.models import User
 #        return self.name
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    bio = models.TextField()
+    profile_pic = models.ImageField(null=True, blank=True, upload_to="exchange/media")
+    website_url = models.CharField(max_length=255, null=True, blank=True)
+    facebook_url = models.CharField(max_length=255, null=True, blank=True)
+    x_url = models.CharField(max_length=255, null=True, blank=True)
+    instagram_url = models.CharField(max_length=255, null=True, blank=True)
+
+
+
+    def __str__(self):
+        return str(self.user)
+
+
 class Article(models.Model):
     title = models.CharField(max_length=200) # For small to large-sized Strings
     slug = models.SlugField()
@@ -22,8 +37,12 @@ class Article(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     # category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     # category = models.CharField(max_length=255, default=None)
+    likes = models.ManyToManyField(User, related_name='blog_posts')
+
     # Add Tags functionality
     # Use true or false to display tag
+    # def total_likes(self):
+    #    return self.likes.count()
 
     def __str__(self):
         return self.title
