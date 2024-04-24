@@ -1,9 +1,6 @@
 from django import forms
 from . import models
 
-#choices = Category.objects.all().values_list('name', flat=True)
-#choice_list = list(choices)
-
 #categories = Category.objects.all()
 #choices = [category.name for category in categories]
 
