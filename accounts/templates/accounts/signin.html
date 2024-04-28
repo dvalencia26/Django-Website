@@ -10,42 +10,53 @@
 
 </head>
 <body>
-<div class="title">
-    <h1>Welcome to Cross-Cultural</h1>
-    <h3>"Bridging Worlds , Sharing Stories"</h3>
-</div>
+<div class="container">
+    <div class="title">
+        <h1>Welcome to Cross-Cultural</h1>
+        <h3>"Bridging Worlds , Sharing Stories"</h3>
+    </div>
+<div class="content">
+    <div class="wrapper">
+        <form action="{% url 'accounts:signin'%}" method="post">
+            {% csrf_token %}
+            <h3>Login</h3>
+            <div class="input-box">
+                <input type="text" id="username" name="username" placeholder="Username" required>
+                <i class='bx bx-user'></i>
+                <br>
+            </div>
+            <div class="input-box">
+                <input type="password" id="pass1" name="pass1" placeholder="Password" required>
+                <i class='bx bx-lock-alt'></i>
+                <br>
+            </div>
+            <div class="remember-forgot">
+                <label><input type="checkbox">Remember me</label>
+                <a href="#">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn">Login</button>
 
-<div class="wrapper">
-    <form action="{% url 'accounts:signin'%}" method="post">
-        {% csrf_token %}
-        <h3>Login</h3>
-        <div class="input-box">
-            <input type="text" id="username" name="username" placeholder="Username" required>
-            <i class='bx bx-user'></i>
+        <!-- Error message display -->
+        {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+
+
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next}}">
+        {% endif %}
+        </form>
+    </div>
+
+    <div class="create-account">
+        <form action="{% url 'accounts:signup' %}" method="get">
+            <h2>First-time users:</h2>
             <br>
-        </div>
-        <div class="input-box">
-            <input type="password" id="pass1" name="pass1" placeholder="Password" required>
-            <i class='bx bx-lock-alt'></i>
-            <br>
-        </div>
-        <div class="remember-forgot">
-            <label><input type="checkbox">Remember me</label>
-            <a href="#">Forgot password?</a>
-        </div>
-        <button type="submit" class="btn">Login</button>
-
-    <!-- Error message display -->
-    {% if error_message %}
-        <p style="color: red;">{{ error_message }}</p>
-    {% endif %}
-
-
-    {% if request.GET.next %}
-        <input type="hidden" name="next" value="{{ request.GET.next}}">
-    {% endif %}
-
+            <button type="submit" class="btn">Create Account</button>
     </form>
+    </div>
+
+    </div>
 </div>
 
 </body>

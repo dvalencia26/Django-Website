@@ -9,7 +9,7 @@ class CreatePost(forms.ModelForm):
     # Which fields we want to be present, from which model it is inheriting
     class Meta:
         model = models.Article
-        fields = ['title', 'body', 'slug', 'thumb']
+        fields = ['title', 'body', 'thumb']
 
         # widgets = {
         #    'category': forms.Select(choices=choices, attrs={'class': 'form-control'}),
