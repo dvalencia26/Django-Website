@@ -1,0 +1,38 @@
+{% extends 'exchange/base.html' %}
+
+{% block content %}
+  <h1>Threads in {{ country|capfirst }}</h1>
+
+    <!-- Back Button -->
+    <a href="{% url 'articles:country' country %}" class="btn btn-secondary btn-lg">Back to {{ country|capfirst}} Articles</a>
+
+    <br>
+    <br>
+ <!-- Dropdown for filtering subcategories -->
+
+    <h3>Filter by Subcategory:</h3>
+    {% for subcategory in subcategories %}
+      <a class="dropdown-item" href="{% url 'articles:country_threads_subcategory' country subcategory|slugify %}">{{ subcategory }}</a>
+    {% endfor %}
+    <br>
+
+  {% if threads %}
+    <ul>
+      {% for thread in threads %}
+        <li>
+          <a href="{% url 'articles:thread_detail' thread.pk %}">{{ thread.title }}</a> - {{ thread.subcategory }}
+            {% if request.user == thread.author %}
+              <a href="{% url 'articles:thread_edit' thread.pk %}" class="btn btn-warning">Edit</a>
+              <a href="{% url 'articles:thread_delete' thread.pk %}" class="btn btn-danger">Delete</a>
+             {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No threads available.</p>
+  {% endif %}
+
+<!-- Link to New Thread Creation Page -->
+  <a href="{% url 'articles:thread_create' view.kwargs.country %}" class="btn btn-info btn-lg">Add New Thread</a>
+{% endblock %}
+

@@ -3,16 +3,25 @@
 
 {% block content %}
 
-    <h1> Travel Page </h1>
+    <h1> All Posts Page </h1>
     <div class="container">
     <div class="articles">
         {% for article in articles %}
             <div class="article">
-                <p class="author"> added by {{ article.author.username}} </p>
+            <div class="author-info">
+                <img class="rounded-circle" src="{{ article.author.profile.profile_pic.url }}"  >
+                <p class="author"> {{ article.author.username}} </p>
+            </div>
+                <br/>
                 <h2><a href="{% url 'articles:detail' article.pk %}">{{ article.title}}</a></h2>
                 <p>{{ article.snippet}} </p>
                 <p>{{ article.date}}</p>
                 <img src="{{ article.thumb.url }}" width="300"/>
+                <div class="like-container">
+                    <i class='bx bxs-like'></i>
+                    <p class="total-likes"> {{ article.total_likes }}</p>
+                </div>
+                <br/><br/>
             </div>
         {% endfor %}
         </div>

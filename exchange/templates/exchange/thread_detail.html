@@ -1,0 +1,40 @@
+{% extends 'exchange/base.html' %}
+
+{% block content %}
+    <div class="article-detail">
+        <div class="article">
+          <h1>{{ thread.title }}</h1>
+          <p>Author: {{ thread.author.username }}</p>
+          <p>Category: {{ thread.country.name|capfirst }}</p>
+          <p>Subcategory: {{ thread.get_subcategory_display }}</p>
+            <p>{{ thread.body }}</p>
+            <p>Date: {{ thread.date }}</p>
+
+    </div>
+</div>
+    <a href="{% url 'articles:country_threads' thread.country.name %}" class="btn">Back</a>
+
+    <p>Likes: {{ thread.total_likes }}</p>
+      <form action="{% url 'articles:like_thread' thread.pk %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="thread_id" value="{{ thread.pk }}">
+          <button type="submit" class="btn btn-primary">Like</button>
+      </form>
+
+    <!-- comments -->
+    <div id="tab-contents">
+    <h3>Comments</h3>
+      {% for comment in thread.comments.all %}
+        {% include 'exchange/comments.html'  %}
+      {% endfor %}
+
+    <!-- Comment Form -->
+      <h3>Add a comment</h3>
+      <form action="{% url 'articles:add_comment_to_thread' thread.pk %}" method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+      </form>
+    </div>
+
+{% endblock %}

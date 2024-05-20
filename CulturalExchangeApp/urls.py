@@ -19,8 +19,8 @@ from django.urls import path, include, re_path
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include("exchange.urls")),
-    re_path(r'^accounts/', include("accounts.urls")),
+    path('admin/', admin.site.urls),  # URL path for Django admin interface
+    path('', include("exchange.urls")),  # URL path to include all URLs from the 'exchange' app
+    re_path(r'^accounts/', include("accounts.urls")),  # # URL path to include all URLs from the 'accounts' app
 
 ]

@@ -1,0 +1,10 @@
+{% extends 'exchange/base.html' %}
+
+{% block content %}
+  <h1>Create a New Thread in {{ country|capfirst }}</h1>
+  <form method="post" action="{% url 'articles:thread_create' country %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Create</button>
+  </form>
+{% endblock %}

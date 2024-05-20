@@ -5,49 +5,63 @@
     <div class="article">
         <img src="{{ article.thumb.url }}"/>
         <br/><br/>
-        <h1>This is the Article Detail HTML File </h1>
-        <h2{{ article.title}}></h2>
+        <h1>{{ article.title}}</h1>
         <p>{{ article.body }}</p>
         <p>{{ article.date }}</p>
     </div>
 </div>
 
-    <a href="{% url 'articles:travelPage' %}" class="btn">Back</a>
-
+    <a href="{% url 'articles:country' country.name %}" class="btn">Back</a>
     <br/><br/>
     <hr>
     <br/>
-    <form action="{% url 'articles:like_post' article.id %}" method="POST">
+
+
+    <!-- Like Button -->
+    <form action="{% url 'articles:like_post' article.pk %}" method="POST">
         {% csrf_token %}
            <!-- name="post_id" is used to keep track of the likes, and the value is to know what post the user is liking. -->
-        <button type="submit" , name="post_id" , value="{{ article.id }}" , class="btn btn-primary">Like</button>
-
+        <button type="submit" , name="post_id" , value="{{ article.id }}" , class="btn btn-primary">Like</button> - {{ total_likes }} Likes
     </form>
     <br/><br/>
 
+    <!-- comments -->
+    <div id="tab-contents">
+        {% for comment in article.comments.all %}
+        {% include 'exchange/comments.html' %}
+        {% endfor %}
+
+    <!-- Comment Form -->
+    <form action="{% url 'articles:add_comment_to_article' article.pk %}" method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+    </form>
+    </div>
+    <br/><br/>
+
     <div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="{{ article.author.profile.profile_pic.url }}" width="200" alt="Card image cap">
-  <div class="card-body">
-      <h5 class="card-title"> {{ article.author.first_name}}</h5>
-      <p class="small text-muted">
-          {% if article.author.profile.website_url %}
-              <a href="{{ article.author.profile.website_url }}"> Website</a> |
-          {% endif %}
-          {% if article.author.profile.facebook_url %}
-              <a href="{{ article.author.profile.facebook_url }}"> Facebook</a> |
-          {% endif %}
+      <img class="card-img-top" src="{{ article.author.profile.profile_pic.url }}" width="200" alt="Card image cap">
+      <div class="card-body">
+          <h5 class="card-title"> {{ article.author.first_name}}</h5>
+          <p class="small text-muted">
+              {% if article.author.profile.website_url %}
+                  <a href="{{ article.author.profile.website_url }}"> Website</a> |
+              {% endif %}
+              {% if article.author.profile.facebook_url %}
+                  <a href="{{ article.author.profile.facebook_url }}"> Facebook</a> |
+              {% endif %}
 
-          {% if article.author.profile.x_url %}
-              <a href="{{ article.author.profile.x_url}}"> X</a> |
-          {% endif %}
+              {% if article.author.profile.x_url %}
+                  <a href="{{ article.author.profile.x_url}}"> X</a> |
+              {% endif %}
 
-          {% if article.author.profile.instagram_url %}
-              <a href="{{ article.author.profile.instagram_url}} "> Instagram </a>
-          {% endif %}
-
-      </p>
-      <p class="card-text"> {{ article.author.profile.bio }}</p>
-  </div>
+              {% if article.author.profile.instagram_url %}
+                  <a href="{{ article.author.profile.instagram_url}} "> Instagram </a>
+              {% endif %}
+          </p>
+          <p class="card-text"> {{ article.author.profile.bio }}</p>
+      </div>
 </div>
 
 {% endblock %}

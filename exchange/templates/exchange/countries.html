@@ -1,0 +1,150 @@
+{% extends 'exchange/base.html' %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'sidebar.css' %}">
+{% endblock %}
+
+{% block content %}
+ <!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'sidebar.css' %}">
+
+</head>
+<body>
+<div id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <form method="get" id="filter-form">
+    <a href="javascript:void(0)" onclick="toggleDropdown('interestDropdown')">Interest</a>
+    <div id="interestDropdown" class="dropdown-container">
+      <ul class="checkbox-menu allow-focus">
+        {% for tag in interest_tags %}
+        <li>
+          <label>
+            <input type="checkbox" name="tags" value="{{ tag.slug }}" {% if tag.slug in selected_tags %}checked{% endif %}>
+            {{ tag.name }}
+          </label>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <a href="javascript:void(0)" onclick="toggleDropdown('travelTypeDropdown')">Travel Type</a>
+    <div id="travelTypeDropdown" class="dropdown-container">
+      <ul class="checkbox-menu allow-focus">
+        {% for tag in travel_type_tags %}
+        <li>
+          <label>
+            <input type="checkbox" name="tags" value="{{ tag.slug }}" {% if tag.slug in selected_tags %}checked{% endif %}>
+            {{ tag.name }}
+          </label>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+      <a href="#">City</a>
+    <button type="submit">Filter</button>
+  </form>
+</div>
+
+
+<div id="main" style="display: flex; align-items: center;">
+  <button class="openbtn" onclick="openNav()">☰ </button>
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'articles:index' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Library</li>
+      </ol>
+    </nav>
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
+}
+
+function toggleDropdown(dropdownId) {
+  var x = document.getElementById(dropdownId);
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
+
+// Checkbox and Dropdown JS
+$(document).on('click', '.allow-focus', function (e) {
+  e.stopPropagation();
+});
+
+$(".checkbox-menu").on("change", "input[type='checkbox']", function() {
+   $(this).closest("li").toggleClass("active", this.checked);
+});
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</body>
+</html>
+<div class="content-wrapper">
+  <div class="header-container">
+    <h1>Articles about {{ country_name|capfirst }}</h1>
+    <div class="sidebar-card">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">@Threads from {{ country_name|capfirst }}</h5>
+          <p class="card-text"> Share tips, ask questions, and connect with others who have traveled to or are interested in {{ country_name|capfirst }}.</p>
+          <a href="{% url 'articles:country_threads' country_name %}" class="btn btn-primary">Go to Threads </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="container">
+      <div class="articles">
+        {% for article in countryList.posts %}
+        <div class="article">
+          <div class="author-info">
+            <div>
+              <img class="rounded-circle" src="{{ article.author.profile.profile_pic.url }}"  >
+              <p class="author"> {{ article.author.username}} </p>
+            </div>
+            <div class="tags">
+              {% for tag in article.tags.all %}
+              {% if tag in interest_tags %}
+              <span class="tag interest-tag">{{ tag.name }}</span>
+              {% elif tag in travel_type_tags %}
+              <span class="tag travel-type-tag">{{ tag.name }}</span>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <br/>
+          <h2><a href="{% url 'articles:detail' article.pk %}">{{ article.title}}</a></h2>
+          <p>{{ article.snippet}} </p>
+          <p>{{ article.date}}</p>
+          <img src="{{ article.thumb.url }}" width="300"/>
+          <div class="like-container">
+            <i class='bx bxs-like'></i>
+            <p class="total-likes"> {{ article.total_likes }}</p>
+          </div>
+         <!-- Edit and Delete buttons -->
+          {% if request.user == article.author %}
+          <a href="{% url 'articles:article_edit' article.pk %}" class="btn btn-warning">Edit</a>
+          <a href="{% url 'articles:article_delete' article.pk %}" class="btn btn-danger">Delete</a>
+          {% endif %}
+          <br/><br/>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -39,22 +39,36 @@ nav{
     justify-self: end;
 }
 
-nav a{
-    color: black;
-}
 nav li{
     display: inline-block;
     margin-left: 20px;
 }
 
-nav button {
-    background: none;
-    color: black;
-    cursor: pointer;
-    border: 0;
+header nav button, header nav a {
+   display: inline-block;
+    padding: 10px 20px;
+    background-color: #006559;
+    color: white;
+    border: none;
+    border-radius: 5px;
     font-size: 1em;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 20px;
+    text-align: center;
+
+}
+header nav button:hover, header nav a:hover {
+    background-color: #004d40;
+}
+header nav .highlight {
+    background-color: mediumpurple;
+    color: black;
 }
 
+header nav .highlight:hover{
+    background-color: #FFC107;
+}
 .container{
     max-width: 800px;
     margin: 0 auto; /* Center the container horizontally */
@@ -80,15 +94,38 @@ nav button {
 }
 
 .article h2{
-    font-size: 1.2em;
+    font-size: 2em;
+    text-align: center;
+    text-decoration: none;
+
 }
 
-.article .author{
+.article .author {
     padding: 10px;
-    background: #CDDCC6;
     margin: 0;
-
 }
+
+.author-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #CDDCC6;
+    width: 100%;
+    height: auto;
+}
+.author-info div:first-child {
+    display: flex;
+    align-items: start;
+}
+
+.author-info img{
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
 .article-detail .article{
     padding: 0;
 }
@@ -116,4 +153,52 @@ nav button {
     display: block;
     margin: 20px 0 0 0;
     padding: 10px;
+}
+.like-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.bx.bxs-like {
+    font-size: 24px;
+    margin-left: 5px;
+}
+
+.total-likes{
+    margin-right: 10px;
+    font-size: 16px;
+}
+.breadcrumb a {
+    color: inherit;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.tags{
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+.tag {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 2px;
+    border-radius: 15px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid black;
+    text-shadow: 1px 1px 2px black;
+
+}
+
+.interest-tag {
+    background-color: #D81B60;
+}
+
+.travel-type-tag {
+    background-color: #FFD700;
 }

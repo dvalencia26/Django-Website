@@ -17,65 +17,80 @@
             <img src="{% static 'img/Top banner.png' %}" alt="">
     </header>
 
+      <!-- Container for Signin, Signup, and LogOut buttons -->
 
+<nav>
+    <ul style="list-style: none; padding: 0;">
+        {% if user.is_authenticated %}
+            <li style="display: flex; gap: 10px;">
+                <form class="logout-link" action="{% url 'accounts:signout'%}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Sign Out</button>
+                </form>
+                <a href="{% url 'articles:create' %}" class="highlight">New Post</a>
+            </li>
+        {% else %}
+            <div class="auth-buttons-container">
+                <ul class="auth-buttons">
+                    <li><a href="{% url 'accounts:signin' %}" class="btn btn-primary">Sign in</a></li>
+                    <li><a href="{% url 'accounts:signup' %}" class="btn btn-primary">Sign up</a></li>
+                </ul>
+            </div>
+        {% endif %}
+    </ul>
+</nav>
+
+    <!-- NavBar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Cross-Cultural</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        </ul>
+        <form class="d-flex my-2 my-lg-0">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+    </div>
+</nav>
+        <!-- End NavBar -->
+
+<!--
     <div class="btn-group" style="width:100%">
       <button style="width:25%">Travel</button>
       <button style="width:25%">Lifestyle</button>
       <button style="width:25%">Relationships</button>
       <button style="width:25%">Stories</button>
     </div>
-
+  -->
 
 
     <p><h3> Trending Destinations</h3>
 
-   <p><button class="button-with-image">
-    <img src="{% static 'img/Flag_Ecuador.png' %}" alt="Side Image">
-    Ecuador
-   </button> </p>
-
-    <!-- Gallery -->
-
-<div class="row">
-  <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-    <img
-      src="media/columpio del fin del mundo Ecuador.jpg"
-      class="w-100 shadow-1-strong rounded mb-4"
-      alt="end of the world swing"
-    />
-
-    <img
-      src="media/Ecuador.jpg"
-      class="w-100 shadow-1-strong rounded mb-4"
-      alt="Trainrail Ecuador"
-    />
-  </div>
-
-  <div class="col-lg-4 mb-4 mb-lg-0">
-    <img
-      src="media/pailondeldiablo.jpg"
-      class="w-100 shadow-1-strong rounded mb-4"
-      alt="Devil's Pailon"
-    />
-
-    <img
-      src="media/chimborazo.jpg"
-      class="w-100 shadow-1-strong rounded mb-4"
-      alt="chimborazo volcano"
-    />
-  </div>
-</div>
-
-<!-- Gallery -->
-    <!-- Main Container -->
-    <div class="container">
-
-        <div class="w-100 bg-dark-subtle p-5 mb-5">
-            <p> This is a text example. Nothing important is being writing here. This is just a test example.</p>
-        </div>
-
+    <div class="flex-container">
+        {% for country, articles in country_articles %}
+            <div class="flex-child magenta">
+                <div class="button-and-images">
+                    <div class="btn-group">
+                        <a href="{% url 'articles:country' country.name %}">{{ country.name|capfirst }}</a>
+                    </div>
+                    <div class="row">
+                        {% for article in articles %}
+                            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                                <a href="{% url 'articles:detail' article.pk %}">
+                                    <img src="{{ article.thumb.url }}" class="w-100 shadow-1-strong rounded mb-4" alt="{{ article.title }}">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    <!-- End of the Container -->
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

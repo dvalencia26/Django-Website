@@ -33,9 +33,11 @@ body{
 .title h1{
     font-size: 65px;
     color: white;
-    text-shadow: black;
     margin: 0;
     padding: 0;
+    text-shadow:
+            2px 2px 5px rgba(0, 0, 0, 0.7), /* First shadow */
+            -2px -2px 5px rgba(0, 0, 0, 0.7); /* Second shadow */;
 }
 .title h3{
     font-size: 20px;
@@ -45,6 +47,7 @@ body{
     border: 2px  ;
     border-radius: 5px;
     background-color: #45C708;
+    text-shadow: 1px 1px 2px black;
 }
 
 .content {
@@ -146,7 +149,7 @@ body{
 .create-account h2{
     font-size: 36px;
     color: white;
-    text-shadow: black;
     margin: 0;
     padding: 0;
+    text-shadow: 2px 2px 5px black
 }
